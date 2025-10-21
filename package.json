@@ -1,0 +1,22 @@
+{
+  "name": "takmoderbot",
+  "version": "0.0.1",
+  "description": "Bot to simplify the moderator's work",
+  "license": "MIT",
+  "author": "YarikCompany",
+  "type": "commonjs",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "node src/index.js",
+    "deploy-commands": "node src/deploy-commands.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.23.2",
+    "mocha": "^11.7.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.38.0",
+    "eslint": "^9.38.0"
+  }
+}
