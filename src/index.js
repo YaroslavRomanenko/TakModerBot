@@ -39,4 +39,11 @@ for (const file of eventFiles) {
     }
 }
 
+client.on('guildMemberAdd', member => {
+    // const channel = client.channels.cache().get(1278666300893298739);
+    // if (!channel) console.log(`Can't find specified channel by its id`);
+
+    member.send('# Вітаємо на сервері Tak!!!');
+});
+
 client.login(token);

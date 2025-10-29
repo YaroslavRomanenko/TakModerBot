@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, MessageFlags, TextDisplayBuilder, SectionBuilder, ThumbnailBuilder} = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, MessageFlags, TextDisplayBuilder, SeparatorBuilder, SectionBuilder, ThumbnailBuilder, SeparatorSpacingSize, ComponentBuilder, ContainerBuilder, RoleFlags} = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -14,7 +14,7 @@ module.exports = {
         } catch(error) {
             console.log(`Can't retrieve userData during get_user_info command. Reason: ${error.message}`)
 
-            return interaction.reply('Користувача не знайдено!\n Можливо ви вказали не правильне id, або дані про цього користувача не містяться в базі даних.');
+            return interaction.reply({ content: 'Користувача не знайдено!\nМожливо ви вказали не правильне id, або дані про цього користувача не містяться в базі даних.', flags: MessageFlags.Ephemeral});
         }
         console.log(userData);
         console.log(userData.id);
@@ -25,29 +25,14 @@ module.exports = {
         } catch (error) {
             console.error(`User was not found during get_user_info command. Reason: ${error.message}`);
 
-            return interaction.reply('Користувача не знайдено! Можливо користувач став недійсним.');
+            return interaction.reply({ content: 'Користувача не знайдено! Можливо користувач став недійсним.', flags: MessageFlags.Ephemeral });
         }
 
         console.log(user);
 
-        const textComponent = new TextDisplayBuilder()
-            .setContent(`# Інформація про користувача
-                         - **Id:** ${user.id}
-                         - **Nickname:** ${user.globalName}
-                         - **Username:** ${user.username}
-                         - **Вік:** ${userData.age.toString()}
-                         - **Область або місто проживання:** ${userData.oblastOrCity}
-                         - **Звідки дізнався/дізналася про сервер:** ${userData.whereFoundServer}
-                         - **Чи знає правила:** ${userData.doKnowRules ? 'Так' : 'Ні'}
-                         - **Чи бував/бувала на подібних серверах:** ${userData.haveBeenOnSimilarServers ? 'Так' : 'Ні'}`)
-
-        const thumbnailComponent = new ThumbnailBuilder().setURL(user.avatarURL());
-
-        const sectionComponent = new SectionBuilder()
-            .addTextDisplayComponents(textComponent)
-            .setThumbnailAccessory(thumbnailComponent)
-
-        return interaction.reply({ flags: MessageFlags.IsComponentsV2, components: [sectionComponent] });
+        const components = await displayInfoEmbedded(user, userData);
+        console.log(components);
+        return interaction.reply({ components: [components], flags: MessageFlags.IsComponentsV2 });
     },
 }
 
@@ -63,4 +48,39 @@ const getUserInfo = async (userId) => {
 
     console.log(myJson.username);
     return myJson;
+}
+
+const displayInfoEmbedded = async (user, userData) => {
+    let heading = '# Інформація';
+
+    const userInfo = `- **Id:** ${user.id}\n` +
+                     `- **Профіль:** <@${user.id}>\n` +
+                     `- **Nickname:** ${user.globalName}\n` +
+                     `- **Username:** ${user.username}\n` +
+                     `- **Вік:** ${userData.age.toString()}\n` +
+                     `- **Область або місто проживання:** ${userData.oblastOrCity}\n` +
+                     `- **Звідки дізнався/дізналася про сервер:** ${userData.whereFoundServer}\n` +
+                     `- **Чи знає правила:** ${userData.doKnowRules ? 'Так' : 'Ні'}\n` +
+                     `- **Чи бував/бувала на подібних серверах:** ${userData.haveBeenOnSimilarServers ? 'Так' : 'Ні'}`
+
+    const userBannerURL = user.banner ? `https://cdn.discordapp.com/banners/${user.id}/${user.banner}.gif?size=512` : null;
+
+    const container = new ContainerBuilder().setAccentColor(user.accentColor ?? 0xffffff)
+
+    if (userBannerURL) {
+        container.addMediaGalleryComponents((media) => media.addItems((item) => item.setURL(userBannerURL)));
+        container.addSeparatorComponents((separator) => separator.setSpacing(SeparatorSpacingSize.Small))
+    }
+    else heading += '\n#'
+
+    container
+        .addSectionComponents(section => {
+            return section
+                .addTextDisplayComponents((textDisplay) => textDisplay.setContent(`${heading} про користувача`))
+                .setThumbnailAccessory((thumbnail) => thumbnail.setURL(user.displayAvatarURL()))
+            })
+        .addSeparatorComponents((separator) => separator.setSpacing(SeparatorSpacingSize.Small))
+        .addTextDisplayComponents((textDisplay) => textDisplay.setContent(userInfo))
+
+    return container;
 }

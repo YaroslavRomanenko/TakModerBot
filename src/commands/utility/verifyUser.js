@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js')
+const { SlashCommandBuilder, MessageFlags } = require('discord.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -19,7 +19,7 @@ module.exports = {
         } catch (error) {
             console.error(`User was not found during verify_user command. Reason: ${error.message}`);
 
-            return interaction.reply('Користувача не знайдено! Можливо ви вказали не правильне id.');
+            return interaction.reply({ content: 'Користувача не знайдено! Можливо ви вказали не правильне id.', flags: MessageFlags.Ephemeral });
         }
 
         const userData = {
@@ -35,12 +35,12 @@ module.exports = {
         console.log(userData);
 
         try {
-            await addUser(userData)
-            return interaction.reply('Користувач успішно доданий!')
+            await addUser(userData);
+            return interaction.reply({ content: `Користувач **${user.globalName}** успішно доданий!`, flags: MessageFlags.Ephemeral });
         } catch(error) {
             console.log(`Can't add user: ${userData.id} via api during verify_user command. Reason: ${error.message}`);
 
-            return interaction.reply('Не вдалося додати користувача. Можливі проблеми з сервером')
+            return interaction.reply({ content: 'Не вдалося додати користувача **${user.globalName}**. Можливі проблеми з сервером', flags: MessageFlags.Ephemeral });
         }
     },
 

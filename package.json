@@ -12,6 +12,7 @@
     "deploy-commands": "node src/deploy-commands.js"
   },
   "dependencies": {
+    "@napi-rs/canvas": "^0.1.81",
     "discord.js": "^14.23.2",
     "mocha": "^11.7.4"
   },
