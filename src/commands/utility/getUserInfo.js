@@ -63,7 +63,7 @@ const displayInfoEmbedded = async (user, userData) => {
                      `- **Чи знає правила:** ${userData.doKnowRules ? 'Так' : 'Ні'}\n` +
                      `- **Чи бував/бувала на подібних серверах:** ${userData.haveBeenOnSimilarServers ? 'Так' : 'Ні'}`
 
-    const userBannerURL = user.banner ? `https://cdn.discordapp.com/banners/${user.id}/${user.banner}.gif?size=512` : null;
+    const userBannerURL = user.banner ? `https://cdn.discordapp.com/banners/${user.id}/${user.banner}?size=512` : null;
 
     const container = new ContainerBuilder().setAccentColor(user.accentColor ?? 0xffffff)
 
