@@ -12,6 +12,8 @@ declare global {
       POSTGRES_USER: string;
       POSTGRES_PASSWORD: string;
       POSTGRES_DB: string;
+
+      DB_SSL: boolean;
     }
   }
 }
