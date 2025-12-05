@@ -8,12 +8,12 @@ export class User {
   @Column()
   age!: number;
 
-  @Column()
+  @Column({ name: 'oblast_or_city' })
   oblastOrCity!: string;
 
-  @Column()
+  @Column({ name: 'where_found_server' })
   whereFoundServer!: string;
 
-  @Column()
+  @Column({ name: 'have_been_on_similar_servers' })
   haveBeenOnSimilarServers!: boolean;
 }
