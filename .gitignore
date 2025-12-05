@@ -1,7 +1,3 @@
 /dist
 /node_modules
-/takdb
 .env
-docker-compose.yml
-Dockerfile
-.dockerignore
