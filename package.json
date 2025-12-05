@@ -1,23 +1,27 @@
 {
-  "name": "takmoderbot",
-  "version": "0.0.1",
-  "description": "Bot to simplify the moderator's work",
-  "license": "MIT",
-  "author": "YarikCompany",
-  "type": "commonjs",
-  "main": "src/index.js",
+  "name": "takmoderapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "mocha",
-    "start": "node src/index.js",
-    "deploy-commands": "node src/deploy-commands.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy-commands": "tsc && node dist/utils/deploy-commands.js",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc && node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@napi-rs/canvas": "^0.1.81",
-    "discord.js": "^14.23.2",
-    "mocha": "^11.7.4"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.38.0",
-    "eslint": "^9.38.0"
+    "discord.js": "^14.25.1",
+    "dotenv": "^17.2.3",
+    "pg": "^8.16.3",
+    "typeorm": "^0.3.28"
   }
 }
