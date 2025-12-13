@@ -53,6 +53,11 @@ export const VerifyUserCommand: Command = {
       user.oblastOrCity = oblastOrCity;
       user.whereFoundServer = whereFoundServer;
       user.haveBeenOnSimilarServers = haveBeenOnSimilarServers;
+      user.username = userDiscord.username;
+      user.global_name = userDiscord.globalName;
+      user.avatar = userDiscord.avatar;
+      user.banner = userDiscord.banner ?? null;
+      user.accent_color = userDiscord.accentColor ?? null;
 
       await userRepo.save(user);
 
